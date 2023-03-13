@@ -7,6 +7,7 @@ const queues = Object.values(jobs).map((job) => ({
   bull: new Queue(job.key, redisConfig),
   name: job.key,
   handle: job.handle,
+  options: job.options,
 }));
 
 export default {
@@ -18,7 +19,7 @@ export default {
       throw new Error(`Queue ${name} not found`);
     }
 
-    return queue.bull.add(data);
+    return queue.bull.add(data, queue.options);
   },
   process() {
     return this.queues.forEach((queue) => {
