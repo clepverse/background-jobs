@@ -13,21 +13,36 @@ const queues = Object.values(jobs).map((job) => ({
 export default {
   queues,
   add(name, data) {
-    const queue = this.queues.find((queue) => queue.name === name);
+    try {
+      const queue = this.queues.find((queue) => queue.name === name);
 
-    if (!queue) {
-      throw new Error(`Queue ${name} not found`);
+      if (!queue) {
+        throw new Error(`QUEUE ${name} NOT FOUND`);
+      }
+
+      return queue.bull.add(data, queue.options);
+    } catch (err) {
+      console.log('QUEUE ERROR [ADD]:', err?.message);
     }
-
-    return queue.bull.add(data, queue.options);
   },
   process() {
-    return this.queues.forEach((queue) => {
-      queue.bull.process(queue.handle);
+    try {
+      return this.queues.forEach((queue) => {
+        queue.bull.process(queue.handle);
 
-      queue.bull.on('failed', (job, result) => {
-        console.log('Job failed', queue.key, job.data);
+        queue.bull.on('failed', (job, result) => {
+          console.log('Job failed', queue.key, job.data);
+          console.log(result);
+        });
+
+        queue.bull.on('error', (job, result) => {
+          console.log('Job error', queue.key, job.data);
+          console.log(result);
+        });
+
       });
-    });
+    } catch (err) {
+      console.log('QUEUE ERROR [PROCESS]:', err?.message);
+    }
   },
 };
