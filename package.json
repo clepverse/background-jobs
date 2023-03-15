@@ -12,11 +12,16 @@
     "nodemailer": "^6.9.1"
   },
   "scripts": {
-    "server:start": "nodemon src/server.js",
-    "queue:start": "nodemon src/queue.js"
+    "start": "tsx src/server.ts",
+    "server:start": "tsx watch src/server.ts",
+    "queue:start": "tsx watch src/queue.js",
+    "build": "tsup src"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21",
-    "sucrase": "^3.29.0"
+    "@types/express": "^4.17.17",
+    "@types/nodemailer": "^6.4.7",
+    "tsup": "^6.6.3",
+    "tsx": "^3.12.5",
+    "typescript": "^4.9.5"
   }
 }

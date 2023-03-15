@@ -39,7 +39,6 @@ export default {
           console.log('Job error', queue.key, job.data);
           console.log(result);
         });
-
       });
     } catch (err) {
       console.log('QUEUE ERROR [PROCESS]:', err?.message);
