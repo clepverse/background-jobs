@@ -1,9 +1,11 @@
 import 'dotenv/config';
 
 import express from 'express';
+
 const { ExpressAdapter } = require('@bull-board/express');
 const { createBullBoard } = require('@bull-board/api');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
+
 import UserController from './app/controllers/userController';
 
 import Queue from './app/lib/Queue';
@@ -15,8 +17,6 @@ createBullBoard({
   queues: Queue.queues.map(queue => new BullAdapter(queue.bull)),
   serverAdapter: serverAdapter,
 });
-
-// queuesBull.setQueues([new BullAdapter(Queue.queues.map((queue) => queue.bull))]);
 
 const app = express();
 

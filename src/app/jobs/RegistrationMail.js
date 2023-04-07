@@ -3,7 +3,7 @@ import Mail from '../lib/Mail';
 export default {
   key: 'RegistrationMail',
   options: {
-    delay: 5000,
+    delay: 2000,
     attempts: 5,
   },
   async handle({ data }) {
